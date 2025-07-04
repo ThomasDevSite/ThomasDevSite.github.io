@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ThomasDevSite - Catálogo Cósmico</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-image: url('https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?auto=format&fit=crop&w=1500&q=80');
+      background-size: cover;
+      background-position: center;
+      color: white;
+      text-align: center;
+      padding: 40px;
+    }
+    h1 {
+      font-size: 3em;
+      text-shadow: 2px 2px 5px #000;
+    }
+    #repos {
+      list-style: none;
+      padding: 0;
+      margin-top: 30px;
+    }
+    #repos li {
+      margin: 12px 0;
+    }
+    #repos a {
+      text-decoration: none;
+      color: #00ffff;
+      background: rgba(0, 0, 0, 0.5);
+      padding: 10px 20px;
+      border-radius: 8px;
+      transition: 0.3s;
+      font-size: 1.2em;
+    }
+    #repos a:hover {
+      background: rgba(255, 255, 255, 0.3);
+      color: #ff00ff;
+    }
+  </style>
+</head>
+<body>
+  <h1>ThomasDevSite</h1>
+  <h2>Site dos Canais Thomas Evans Familia, Thomas Evans Familia 2, Thomas Evans Minecraft e Thomas Evans Minecraft 2</h2>
+  <p>Explorando os sistemas do meu universo digital. Abaixo estão os planetas com páginas públicas:</p>
+  <ul id="repos"></ul>
+
+  <script>
+    fetch('https://api.github.com/users/ThomasDevSite/repos')
+      .then(res => res.json())
+      .then(data => {
+        const list = document.getElementById('repos');
+        data.forEach(repo => {
+          // Ignora o repositório raiz
+          if (repo.name !== 'ThomasDevSite.github.io') {
+            // Verifica se GitHub Pages foi habilitado via homepage ou descrição
+            const projectUrl = `https://ThomasDevSite.github.io/${repo.name}`;
+            const li = document.createElement('li');
+            const a = document.createElement('a');
+            a.href = projectUrl;
+            a.textContent = repo.name;
+            a.target = '_blank';
+            li.appendChild(a);
+            list.appendChild(li);
+          }
+        });
+      })
+      .catch(err => {
+        const list = document.getElementById('repos');
+        list.innerHTML = '<li>Erro 404: Nenhum Link Encontrado. Talvez Deu Erro Na Pesquisa.</li>';
+      });
+  </script>
+</body>
+</html>
